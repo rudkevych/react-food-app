@@ -1,6 +1,7 @@
 import Card from '../UI/Card';
 import styles from './AvailableMeals.module.css';
 import MealItem from './MealItem';
+import MealItemForm from './MealItemForm';
 
 //TODO: change to real API request
 const DUMMY_MEALS = [
