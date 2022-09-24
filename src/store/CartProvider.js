@@ -40,7 +40,7 @@ const cartReducer = (state, action) => {
     let updatedTotalAmount;
     if (cartItem) {
       if (cartItem.amount === 1) {
-        updatedItems = [...state.items].splice(itemIndex, 1);
+        updatedItems = [...state.items].splice(itemIndex + 1, 1);
       } else {
         const updatedItem = {
           ...cartItem,
@@ -55,7 +55,6 @@ const cartReducer = (state, action) => {
         totalAmount: updatedTotalAmount,
       };
     }
-    console.log('context');
   }
 
   return defaultCartState;
