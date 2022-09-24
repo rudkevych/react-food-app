@@ -7,10 +7,25 @@ import CartItem from './CartItem';
 const Cart = (props) => {
   const cartContext = useContext(CartContext);
 
+  const removeCartItemHandler = () => {
+    
+  };
+
+  const addCartItemHandler = () => {
+    
+  };
+
   const cartItems = (
     <ul className={styles['cart-items']}>
       {cartContext.items.map((item) => (
-        <CartItem price={item.price} amount={item.amount} name={item.name} />
+        <CartItem
+          price={item.price}
+          amount={item.amount}
+          name={item.name}
+          key={item.id}
+          onRemove={removeCartItemHandler.bind(null, item.id)}
+          onAdd={addCartItemHandler.bind(null, item)}
+        />
       ))}
     </ul>
   );
