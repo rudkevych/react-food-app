@@ -7,6 +7,7 @@ const defaultCartState = {
 };
 
 const cartReducer = (state, action) => {
+  //TODO: this part needs refactoring but I do not have time for this :)
   if (action.type === 'ADD') {
     console.log(action);
     const itemIndex = state.items.findIndex(
