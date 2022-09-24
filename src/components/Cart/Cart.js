@@ -12,7 +12,7 @@ const Cart = (props) => {
   };
 
   const addCartItemHandler = (item) => {
-    cartContext.addItem(item);
+    cartContext.addItem(item, 1);
   };
 
   const cartItems = (

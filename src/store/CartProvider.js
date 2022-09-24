@@ -8,6 +8,7 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
   if (action.type === 'ADD') {
+    console.log(action);
     const itemIndex = state.items.findIndex(
       (item) => item.id === action.item.id
     );
@@ -17,7 +18,7 @@ const cartReducer = (state, action) => {
     if (cartItem) {
       const updatedItem = {
         ...cartItem,
-        amount: cartItem.amount + action.item.amount,
+        amount: action.amount ? cartItem.amount + action.amount : cartItem.amount + action.item.amount,
       };
       const newItems = [...state.items];
       newItems[itemIndex] = updatedItem;
@@ -65,8 +66,8 @@ const CartProvider = (props) => {
     cartReducer,
     defaultCartState
   );
-  const addItemHandler = (item) => {
-    dispatchCartAction({ type: 'ADD', item: item });
+  const addItemHandler = (item, amount) => {
+    dispatchCartAction({ type: 'ADD', item: item, amount: amount });
   };
   const removeItemHandler = (id) => {
     dispatchCartAction({ type: 'REMOVE', id: id });
