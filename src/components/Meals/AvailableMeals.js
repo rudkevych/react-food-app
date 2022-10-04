@@ -1,41 +1,48 @@
+import { useState } from 'react';
+import { useEffect } from 'react';
 import Card from '../UI/Card';
 import styles from './AvailableMeals.module.css';
 import MealItem from './MealItem';
-import MealItemForm from './MealItemForm';
-
-//TODO: change to real API request
-const DUMMY_MEALS = [
-  {
-    id: 'm1',
-    name: 'Sushi',
-    description: 'Finest fish and veggies',
-    price: 22.99,
-  },
-  {
-    id: 'm2',
-    name: 'Schnitzel',
-    description: 'A german specialty!',
-    price: 16.5,
-  },
-  {
-    id: 'm3',
-    name: 'Barbecue Burger',
-    description: 'American, raw, meaty',
-    price: 12.99,
-  },
-  {
-    id: 'm4',
-    name: 'Green Bowl',
-    description: 'Healthy...and green...',
-    price: 18.99,
-  },
-];
 
 const AvailableMeals = (props) => {
+  const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchMeals() {
+      setIsLoading(true);
+
+      const response = await fetch(
+        'https://react-food-app-62239-default-rtdb.firebaseio.com/meals.json'
+      );
+      const responseData = await response.json();
+      const loadedMeals = [];
+
+      for (const key in responseData) {
+        loadedMeals.push({
+          id: key,
+          ...responseData[key],
+        });
+      }
+      setMeals(loadedMeals);
+      setIsLoading(false);
+    }
+
+    fetchMeals();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <section className={styles.loading}>
+        <p>Loading...</p>
+      </section>
+    );
+  }
+
   return (
     <section className={styles.meals}>
       <ul>
-        {DUMMY_MEALS.map((meal) => (
+        {meals.map((meal) => (
           <Card key={meal.id}>
             <MealItem
               name={meal.name}
