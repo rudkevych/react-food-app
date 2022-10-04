@@ -11,10 +11,14 @@
     padding: 0;
   }
 
-  .loading {
+  .info {
     text-align: center;
     color: white;
     font-size: x-large;
+  }
+
+  .error {
+    color: red;
   }
   
   @keyframes meals-appear {
