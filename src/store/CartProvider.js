@@ -9,7 +9,6 @@ const defaultCartState = {
 const cartReducer = (state, action) => {
   //TODO: this part needs refactoring but I do not have time for this :)
   if (action.type === 'ADD') {
-    console.log(action);
     const itemIndex = state.items.findIndex(
       (item) => item.id === action.item.id
     );
@@ -19,7 +18,9 @@ const cartReducer = (state, action) => {
     if (cartItem) {
       const updatedItem = {
         ...cartItem,
-        amount: action.amount ? cartItem.amount + action.amount : cartItem.amount + action.item.amount,
+        amount: action.amount
+          ? cartItem.amount + action.amount
+          : cartItem.amount + action.item.amount,
       };
       const newItems = [...state.items];
       newItems[itemIndex] = updatedItem;
@@ -59,6 +60,14 @@ const cartReducer = (state, action) => {
     };
   }
 
+  
+  if (action.type === 'REMOVE_ALL') {
+    return {
+      items: [],
+      totalAmount: 0,
+    };
+  }
+
   return defaultCartState;
 };
 
@@ -67,19 +76,28 @@ const CartProvider = (props) => {
     cartReducer,
     defaultCartState
   );
+
   const addItemHandler = (item, amount) => {
     dispatchCartAction({ type: 'ADD', item: item, amount: amount });
   };
+
   const removeItemHandler = (id) => {
     dispatchCartAction({ type: 'REMOVE', id: id });
   };
+
+  const removeAllItemsHandler = () => {
+    dispatchCartAction({ type: 'REMOVE_ALL' });
+  };
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
 
     addItem: addItemHandler,
     removeItem: removeItemHandler,
+    removeAllItems: removeAllItemsHandler,
   };
+
   return (
     <CartContext.Provider value={cartContext}>
       {props.children}
